@@ -1,0 +1,8 @@
+usethis::use_git_ignore(c(
+  ".Rproj.user",
+  ".Rhistory",
+  ".RData",
+  ".DS_Store",
+  "*.Rcheck",
+  "*.tar.gz"
+))
