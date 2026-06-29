@@ -6,3 +6,9 @@ usethis::use_git_ignore(c(
   "*.Rcheck",
   "*.tar.gz"
 ))
+.Rproj.user
+.Rhistory
+.RData
+.httr-oauth
+.DS_Store
+.quarto
