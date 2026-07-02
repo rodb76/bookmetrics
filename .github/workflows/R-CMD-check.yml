@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pkgversion::pkg_install("remotes")
-          remotes::install_deps(dependencies = true, upgrade = "always")
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
 
       - name: Check
         run: R CMD check . --no-manual --doctests

@@ -20,8 +20,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pkgversion::pkg_install("remotes")
-          remotes::install_deps(dependencies = true, upgrade = "always")
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
 
       - name: Install covr
         run: Rscript -e 'install.packages("covint", repos="https://cloud.r-project.org")' # wait, typo... should be "covr"
