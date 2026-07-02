@@ -18,11 +18,14 @@ jobs:
         with:
           r-version: 'release'
 
-      - name: Install Dependencies
+      - name: Install remotes
+        run: Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
+
+      - name: Install package deps
         run: |
-          Rscript -e 'install.packages(c("remotes", "covr"), repos = "https://cloud.r-project.org")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
           Rscript -e 'remotes::install_local()'
+          Rscript -e 'install.packages("covr", repos = "https://cloud.r-project.org")'
 
       - name: Run coverage
         run: Rscript -e 'covr::codecov()'
