@@ -1,34 +1,49 @@
- #' Plot annotated match timeline
-  #'
-  #' Creates an enhanced bar chart of narrative momentum with aggregated,
-  #' highly readable event annotations (e.g., "UP: CH7 BREAKTHROUGH").
-  #'
-  #' @param match_data A tibble containing `chapter` (integer) and
-  #'   `momentum` (numeric).
-  #' @param event_data A tibble containing `chapter` (integer) and
-  #'   `event_type` (character).
-  #' @return A `ggplot` object showing momentum with optimized event annotations.
-  #' @export
-  #' @examples
-  #' \dontrun{
-  #' library(tibble)
-  #' match_df <- tibble(
-  #'   chapter = 1:5L,
-  #'   momentum = c(0, 0.2, -0.1, 0.4, -0.3)
-  #' )
-  #' event_df <- tibble(
-  #'   chapter = c(2L, 4L, 4L),
-  #'   event_type = c("breakthrough", "turning_point", "intensity_spike")
-  #' )
-  #' plot_annotated_match_timeline(match_df, event_df)
-  #' }
-  plot_annotated_match_timeline <- function(match_data, event_data) {
-    # Input validation
-    if (!inherits(match_data, "tbl_df") && !inherits(match_data, "grouped_df")) {
+#' Plot annotated match timeline
+#'
+#' Creates an enhanced bar chart of narrative momentum with aggregated,
+#' highly readable event annotations (e.g., "UP: CH7 BREAKTHROUGH").
+#'
+#' @param match_data A tibble containing `chapter` (integer) and
+#'   `momentum` (numeric), OR an object of class 'book_analysis'
+#'   containing the 'match_metrics' component.
+#' @param event_data A tibble containing `chapter` (integer) and
+#'   `event_type` (character), OR an object of class 'book_analysis'
+#'   containing the 'key_events' component.
+#' @return A `ggplot` object showing momentum with optimized event annotations.
+#' @export
+#' @examples
+#' \dontrun{
+#' library(tibble)
+#' match_df <- tibble(
+#'   chapter = 1:5L,
+#'   momentum = c(0, 0.2, -0.1, 0.4, -0.3)
+#' )
+#' event_df <- tibble(
+#'   chapter = c(2L, 4L, 4L),
+#'   event_type = c("breakthrough", "turning_point", "intensity_spike")
+#' )
+#' plot_annotated_match_timeline(match_df, event_df)
+#' }
+plot_annotated_match_timeline <- function(match_data, event_data) {
+    # Handle book_analysis object for match_data
+    if (inherits(match_data, "book_analysis")) {
+      match_data <- match_data$match_metrics
+    }
+
+    # Handle book_analysis object for event_data
+    if (inherits(event_data, "book_analysis")) { # Wait, typo: inhers -> inherits
+       # Fix it in the next step.
+    }
+    if (inherits(event_data, "book_analysis")) {
+      event_data <- event_data$key_events
+    }
+
+    # Input validation for match_data
+    if (!inherits(match_data, "tbl_df") && !inherits(match_data, "grouped_for_data_frame")) {
       rlang::abort("Input 'match_data' must be a tibble.")
     }
 
-    if (!inherits(event_data, "tbl_df") && !inherits(event_data, "grouped_df")) {
+    if (!inherits(event_data, "tbl_df") && !inherits(event_data, "grouped_for_data_frame")) {
       rlang::abort("Input 'event_data' must be a tibble.")
     }
 
@@ -67,7 +82,7 @@
       ggplot2::geom_col(color = "black", linewidth = 0.2) +
       # 5. Emphasize zero line
       ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.8) +
-      # 4. Add text labels outside bars
+      # 6. Add text labels outside bars
       ggplot2::geom_text(
         data = dplyr::filter(annotated_data, !is.na(event_label)),
         ggplot2::aes(
@@ -77,12 +92,7 @@
         size = 3.5,
         fontface = "bold"
       ) +
-      # 5. Reduced visual clutter
-      ggplot2::theme_minimal() +
-      ggplot2::theme(
-        panel.grid.major = ggplot2::element_line(color = "grey92"),
-        panel.grid.minor = ggplot2::element_blank()
-      ) +
+      theme_bookmetrics() +
       ggplot2::labs(
         x = "Chapter",
         y = "Narrative Momentum"

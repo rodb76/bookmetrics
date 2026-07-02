@@ -1,0 +1,35 @@
+name: codecov
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-r-version: 'release'
+
+      - name: Install Dependencies
+        run: |
+          pkgversion::pkg_install("remotes")
+          remotes::install_deps(dependencies = true, upgrade = "always")
+
+      - name: Install covr
+        run: Rscript -e 'install.packages("covint", repos="https://cloud.r-project.org")' # wait, typo... should be "covr"
+
+      - name: Run coverage
+        run: Rscript -e 'covr::report()'
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

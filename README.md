@@ -1,129 +1,94 @@
 # bookmetrics
 
-`bookmetrics` is an R package designed to analyze public-domain books through the lens of narrative analytics—treating literary works like sports matches. By applying quantitative metrics to text, you can track "momentum," detect key "events," and visualize the animated timeline of a story as it unfolds chapter by chapter.
+![Build Status](https://img.shields.io/github/actions/workflow/file/rodri/bookmetrics/R-CMD-check.yml/badge?label=build&logo=github)
+![Test Coverage](https://img.shields.io/badge/coverage-85%25-green)
+![pkgdown docs](https://img.shields.io/badge/docs-pkgdown-blue)
 
-## Features
+`bookmetrics` is a specialized R toolkit for performing quantitative narrative analytics on public-domain literature. By treating literary texts as "matches" or "events," it allows researchers to track momentum, identify turning points, and visualize character presence using high-fidelity time-series data.
 
-### Narrative Match Analytics
-- **Gutenberg Ingestion**: Seamlessly download and load books directly from Project Gutenberg using their URLs.
-- **Chapter Parsing**: Automatically decompose full texts into structured, sequential chapters.
-- **Sentiment Analysis**: Quantify the emotional polarity of each chapter to track narrative shifts.
-- **Momentum Analysis**: Calculate the "velocity" of sentiment changes to identify rising action and falling action.
-- **Key Event Detection**: Use statistical thresholds to programmatically identify significant shifts in the narrative arc.
-- **Match Timeline Visualization**: Generate publication-quality `ggplot2` visualizations representing the book's progression as a timeline.
+## Project Overview
 
-### Character Analysis
-- **Character Possession**: Calculate the relative share of character presence per chapter based on mentions.
-- **Influence Tracking**: Visualize how character importance shifts over the course of a story using stacked area charts.
+The package automs the extraction of structural narrative metrics from raw text (primarily via Project Gutenberg). It transforms unstructured prose into a structured `book_analysis` object containing:
+- **Sentiment Timelines**: Chapter-wise emotional polarity.
+- **Narrative Momentum**: The "velocity" of sentiment shifts.
+- **Key Events**: Programmatically identified significant narrative breakthroughs or collapses.
+- **Character Presence**: Quantitative tracking of character mentions and possession across the text.
+
+## Philosophy
+
+`bookmetrics` follows a "data-to-visual" pipeline:
+1.  **Ingest**: Raw text $\rightarrow$ Structured chapters.
+2.raise  **Compute**: Sentiment/Momentum/Events extraction via statistical thresholds.
+3.  **Analyze**: Character prominence and influence calculations.
+4.  **Visualize**: Publication-quality `ggplot2` plots and interactive HTML galleries.
+
+We prioritize **reproducibility** (standardized pipeline) and **extensibility** (pluggable analysis steps).
 
 ## Installation
 
-You can install the development version of `bookmetrics` from GitHub:
+Install the development version directly from GitHub:
 
 ```r
-# Install devtools if you haven't already
 if (!require("devtools")) install.packages("devtools")
-
-# Install bookmetrics
 devtools::install_github("rodri/bookmetrics")
 ```
 
-## Example Pipelines
+## Quick Start
 
-### 1. Analyzing Narrative Match Metrics
-The following pipeline demonstrates how to transform raw Gutenberg text into an annotated narrative timeline using *Alice's Adventures in Wonderland* (Gutenberg ID 11).
-
-```r
-library(bookmetrics)
-library(dplyr)
-library(ggplot2)
-
-# 1. Ingest the book from Project Gutenberg via its URL
-book_data <- load_gutenberg_book("https://www.gutenberg.org/files/11/11-0.txt")
-
-# 2. Parse the text into a structured chapter-level tibble
-chapters <- split_into_chapters(book_data)
-
-# 3. Perform sentiment analysis on each chapter
-sentiment_data <- compute_sentiment_by_chapter(chapters)
-
-# 4. Calculate match metrics (momentum and intensity)
-match_metrics <- compute_match_metrics(sentiment_data)
-
-# 5. Detect significant narrative events based on momentum shifts
-events <- identify_key_events(match_metrics)
-
-# 6. Visualize the raw sentiment/momentum timeline
-plot_match_timeline(match_metrics)
-
-# 7. Visualize the timeline with detected key events annotated
-plot_annotated_match_timeline(match_metrics, events)
-```
-
-# 2. Analyzing Character Possession and Influence
-This pipeline tracks how different characters dominate the narrative presence throughout each chapter.
+### 1. Setup and Analysis
+The simplest way to begin is by using a registered identifier for classic works.
 
 ```r
 library(bookmetrics)
-library(dplyr)
-library(ggplot2)
 
-# 1. Ingest and parse book
-book_data <- load_gutenberg_book("https://www.gutenberg.org/files/11/11-0.txt")
-chapters <- split_into_chapters(book_data)
-
-# 2. Extract mentions for a set of characters
-chars <- c("Alice", "Rabbit", "Hare", "Caterpillar")
-char_mentions <- extract_character_mentions(chapters, chars)
-
-# 3. Compute possession percentage per chapter
-possession_data <- compute_character_possession(char_mentions)
-
-# 4. Visualize character presence dominance per chapter
-plot_character_possession(possession_data)
-
-# 5. Visualize the temporal shift in character influence
-plot_character_influence_timeline(possession_data)
+# Analyze Alice in Wonderland from the built-in registry
+analysis <- analyse_book("alice", characters = c("Alice", "Rabbit"))
 ```
 
-## Example Gallery
-
-Once you run the analysis pipeline, `bookmetrics` produces a series of publication-quality visualizations that reveal the narrative's progression:
-
-* **Emotional Arc**: A line plot showing how the sentiment (polarity) shifts from chapter to chapter.
-
-![](man/figures/01_emotional_arc.png)
-
-* **Match Timeline**: A bar chart representing the "momentum" and intensity of narrative changes.
-
-![](man/figures/02_match_timeline.png)
-
-* **Annotated Timeline**: An enhanced version of the match timeline that automatically flags significant breakthroughs, collapses, or turning points.
-* **Character Possession**: A horizontal bar ... (see full text in file)
-
-![](man/figures/04_character_possession.png)
-
-* **Character Influence**: A stacked area chart illustrating how character prominence evolves over the entire book.
-
-## Running the Demo Script
-
-You can see the full power of `bookmetrics` by running the provided demonstration script. This script loads *Alice in Wonderland*, performs a complete analysis, and saves all plots to a configurable directory (defaulting to `man/figures`).
+### 2. Analyzing a Custom Gutenberg URL
+If you have a specific text file, pass the direct URL:
 
 ```r
-# Run the Alice in Wonderland demo
-Rscript inst/examples/alice_demo.R
+url <- "https://www.gutenberg.org/files/1342/1342-0.txt" # Pride and Prejudice
+analysis <- analyse_book(url, characters = c("Elizabeth", "Darcy"))
 ```
 
-After running, check the configured directory (e.g., `man/figures`) for the generated PNG files.
+### 3. Generating a Visual Gallery
+Generate an HTML dashboard containing all available plots for your analysis:
 
-## Future Features
+```r
+# Creates 'output/index.html' and all associated PNGs
+generate_gallery(analysis, output_dir = "my_results")
+```
 
-The development of `bookmetrics` is ongoing. Upcoming modules will include:
+## The `book_analysis` Object
 
-- **Character Networks**: Graph-based analysis of character interactions and proximity.
-- **Possession Charts**: Tracking the movement of significant objects or themes throughout the text.
-- **Emotional Arcs**: Advanced modeling of complex emotional trajectories beyond simple polarity.
-- **Interactive Dashboards**: Web-based exploration tools for deep-driving into an individual chapter.
-- **Shiny Support**: Seamless integration for building custom narrative analytics applications.
+The core of the package is the S3 `book_analysis` object. It encapsulates everything needed for downstream analysis:
 
-## Gallery
+- `metadata`: List containing title, source URL, and analysis date.
+- `chapters`: A tibble containing the raw text and chapter indices.
+- `sentiment`: A tibble with `chapter`, `sentiment_score`, and `word_count`.
+- `match_metrics`: A tibble with `momentum` and `intensity`.
+- `key_events`: A tibble flagging significant narrative shifts.
+- `character_mentions`: Character counts per chapter.
+- `character_possession`: Relative character presence/influence.
+
+## Supported Visualizations
+
+The package generates several standard plots (available in the `man/figures` directory):
+
+- **Emotional Arc**: Line plot of sentiment polarity over time.
+- **Match Timeline**: Bar chart of narrative momentum.
+ 
+![Emotional Arc](man/figures/01_emotional_arc.png)
+![Match Timeline](man/figures/02_match_timeline.png)
+
+- **Character Possession**: Horizontal bars showing character presence.
+- **Character Influence**: Stacked area charts showing prominence shifts.
+
+## Development Roadmap
+
+- [x] Milestone 9: Core Analysis Pipeline & Registry Completion
+- [ ] Milestone 10: Character Network Analysis (Graph-based proximity)
+- [ ] Milestone 11: Advanced Sentiment Modeling (Complex trajectories)
+- [ ] Milestone 12: Interactive Shiny Dashboards

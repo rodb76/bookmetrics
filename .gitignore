@@ -1,14 +1,31 @@
-usethis::use_git_ignore(c(
-  ".Rproj.user",
-  ".Rhistory",
-  ".RData",
-  ".DS_Store",
-  "*.Rcheck",
-  "*.tar.gz"
-))
+# Git format for usethis::use_git_ignore()
+
+## R
 .Rproj.user
 .Rhistory
 .RData
-.httr-oauth
+.Ruserdata
+.Rcache
+*.Rcheck
+*.tar.gz
+*.Rproj.user
+
+## IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## OS
 .DS_Store
-.quarto
+Thumbs.db
+desktop.ini
+
+## Testing & CI
+coverage/
+*.log
+.github/workflows/*.log
+
+## Project Specific
+output/
+inst/extdata/*.txt
