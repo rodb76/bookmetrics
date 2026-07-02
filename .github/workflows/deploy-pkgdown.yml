@@ -18,8 +18,10 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'install.packages(c("remotes", "pkgdown"))'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
+          Rscript -e 'remotes::install_local()'
+
 
       - name: Build pkgdown site
         run: Rscript -e 'pkgdown::build_site()'

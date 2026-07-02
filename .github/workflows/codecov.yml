@@ -22,9 +22,7 @@ jobs:
         run: |
           Rscript -e 'install.packages("remotes")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
-
-      - name: Install covr
-        run: Rscript -e 'install.packages("covint", repos="https://cloud.r-project.org")' # wait, typo... should be "covr"
+          Rscript -e 'install.packages("covr", repos = "https://cloud.r-project.org")'
 
       - name: Run coverage
         run: Rscript -e 'covr::report()'

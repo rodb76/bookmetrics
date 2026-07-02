@@ -24,6 +24,5 @@ jobs:
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
 
       - name: Run tests
-        run: |
-          library(testthat)
-          testdir("tests/testthat")
+        run: run: Rscript -e 'testthat::test_check("bookmetrics")'
+

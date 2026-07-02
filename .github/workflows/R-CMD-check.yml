@@ -27,4 +27,5 @@ jobs:
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
 
       - name: Check
-        run: R CMD check . --no-manual --doctests
+        run: Rscript -e 'devtools::check(args = c("--no-manual", "--doctests"))'
+      
