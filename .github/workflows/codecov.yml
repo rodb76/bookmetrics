@@ -20,14 +20,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'install.packages(c("remotes", "covr"), repos = "https://cloud.r-project.org")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
-          Rscript -e 'install.packages("covr", repos = "https://cloud.r-project.org")'
+          Rscript -e 'remotes::install_local()'
 
       - name: Run coverage
         run: Rscript -e 'covr::codecov()'
-
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}

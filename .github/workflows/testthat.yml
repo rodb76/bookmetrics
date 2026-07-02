@@ -22,6 +22,7 @@ jobs:
         run: |
           Rscript -e 'install.packages(c("remotes", "testthat"), repos = "https://cloud.r-project.org")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
+          Rscript -e 'remotes::install_local()'
 
       - name: Run tests
         run: Rscript -e 'testthat::test_check("bookmetrics")'
