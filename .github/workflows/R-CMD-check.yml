@@ -24,6 +24,7 @@ jobs:
       - name: Install Dependencies
         run: |
           Rscript -e 'install.packages("remotes")'
+          Rscript -e 'install.packages("devtools")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
 
       - name: Check

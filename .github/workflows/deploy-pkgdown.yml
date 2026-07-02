@@ -16,6 +16,9 @@ jobs:
         with:
           use-r-version: 'release'
 
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
       - name: Install Dependencies
         run: |
           Rscript -e 'install.packages(c("remotes", "pkgdown"))'
