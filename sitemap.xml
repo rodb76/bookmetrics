@@ -1,0 +1,24 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CLAUDE.html</loc></url>
+<url><loc>/CONTRIBUTING.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/compute_character_possession.html</loc></url>
+<url><loc>/reference/compute_match_metrics.html</loc></url>
+<url><loc>/reference/compute_sentiment_by_chapter.html</loc></url>
+<url><loc>/reference/extract_character_mentions.html</loc></url>
+<url><loc>/reference/identify_key_events.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/load_gutenberg_book.html</loc></url>
+<url><loc>/reference/plot_annotated_match_timeline.html</loc></url>
+<url><loc>/reference/plot_character_influence_timeline.html</loc></url>
+<url><loc>/reference/plot_character_possession.html</loc></url>
+<url><loc>/reference/plot_emotional_arc.html</loc></url>
+<url><loc>/reference/plot_match_timeline.html</loc></url>
+<url><loc>/reference/split_into_chapters.html</loc></url>
+</urlset>
+
