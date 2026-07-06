@@ -39,7 +39,7 @@ generate_gallery <- function(analysis, output_dir) {
     "match_timeline" = plot_match_timeline,
     "character_possession" = plot_character_possession,
     "character_influence_timeline" = plot_character_influence_timeline,
-    "    annotated_match_timeline" = function(analysis) {
+    "annotated_match_timeline" = function(analysis) {
       plot_annotated_match_timeline(analysis$match_metrics, analysis$key_events)
     },
     "emotional_arc" = plot_emotional_arc
@@ -65,7 +65,7 @@ generate_gallery <- function(analysis, output_dir) {
   if (length(generated_files) > 0) {
     title <- if (!is.null(analysis$metadata$title)) analysis$metadata$title else "Book Analysis Gallery"
 
-    html_lines <- c(
+    html_lines <- paste0(
       "<!DOCTYPE html>",
       "<html>",
       "<head>",
@@ -100,7 +100,7 @@ generate_gallery <- function(analysis, output_dir) {
       clean_name <- gsub("_", " ", clean_name)
       clean_name <- paste0(toupper(substring(clean_name, 1, 1)), substring(clean_name, 2))
 
-      html_lines <- c(
+      html_lines <- paste0(
         html_lines,
         "    <div class='gallery-item'>",
         "      <img src='", fname, "' alt='", clean_name, "'>",

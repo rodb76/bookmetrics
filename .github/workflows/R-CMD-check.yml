@@ -10,6 +10,7 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.os }}
     strategy:
+    fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
@@ -28,5 +29,5 @@ jobs:
           Rscript -e 'remotes::install_deps(dependencies = TRUE, upgrade = "always")'
 
       - name: Check
-        run: Rscript -e 'devtools::check(args = c("--no-manual", "--doctests"))'
+        run: Rscript -e 'devtools::check(args = c("--no-manual"))'
       

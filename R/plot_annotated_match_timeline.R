@@ -31,9 +31,6 @@ plot_annotated_match_timeline <- function(match_data, event_data) {
     }
 
     # Handle book_analysis object for event_data
-    if (inherits(event_data, "book_analysis")) { # Wait, typo: inhers -> inherits
-       # Fix it in the next step.
-    }
     if (inherits(event_data, "book_analysis")) {
       event_data <- event_data$key_events
     }

@@ -1,16 +1,6 @@
 library(testthat)
 library(tibble)
 
-# Load implementation
-source("../../R/book_analysis.R")
-source("../../R/load_gutenberg_book.R")
-source("../../R/split_into_chapters.R")
-source("../../R/compute_sentiment_by_chapter.R")
-source("../../R/compute_match_metrics.R")
-source("../../R/identify_key_events.R")
-source("../../R/extract_character_mentions.R")
-source("../../R/compute_character_possession.R")
-source("../../R/analyse_book.R")
 
 test_that("analyse_book returns a book_analysis object", {
   # Create a temporary dummy "book" file.
@@ -34,3 +24,4 @@ test_that("analyse_book returns a book_analysis object", {
   # Cleanup
   unlink(tmp_file)
 })
+

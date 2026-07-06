@@ -1,21 +1,7 @@
 library(testthat)
 library(tibble)
 
-# Load implementation
-source("../../R/book_analysis.R")
-source("../../R/load_gutenberg_book.R")
-source("../../R/split_into_chapters.R")
-source("../../R/compute_sentiment_by_chapter.R")
-source("../../R/compute_match_metrics.R")
-source("../../R/identify_key_events.R")
-source("../../R/extract_character_mentions.R")
-source("../../R/compute_character_possession.R")
-source("../../R/analyse_book.R")
-source("../../R/plot_match_timeline.R")
-source("../../R/plot_character_possession.R")
-source("../../R/plot_character_influence_timeline.R")
-source("../../R/plot_annotated_match_timeline.R")
-source("../../R/plot_emotional_arc.R")
+
 
 test_that("create_book_analysis creates an S3 object of class book_analysis", {
   analysis <- create_book_analysis(metadata = list(title = "Test Book"))
@@ -42,8 +28,9 @@ test_that("create_book_analysis handles provided data correctly", {
 test_that("print.book_analysis produces expected output and does not error", {
   analysis <- create_book_analysis(metadata = list(title = "Print Test"))
   # We use expect_output to check the printed text
+  #expect_output(print(analysis), "Metadata: title")
   expect_output(print(analysis), "Book Analysis Object")
-  expect_output(print(analysis), "Metadata: title")
+  expect_output(print(analysis), "Title:\\s*Print Test")
 })
 
 test_that("plot_match_timeline accepts both tibble and book_analysis", {

@@ -3,13 +3,13 @@ library(tibble)
 library(bookmetrics)
 
 # Load implementation
-source("../../R/book_analysis.R")
-source("../../R/plot_match_timeline.R")
-source("../../R/plot_character_possession.R")
-source("../../R/plot_character_influence_timeline.R")
-source("../../R/plot_annotated_match_timeline.R")
-source("../../R/plot_emotional_arc.R")
-source("../../R/generate_gallery.R")
+# source("../../R/book_analysis.R")
+# source("../../R/plot_match_timeline.R")
+# source("../../R/plot_character_possession.R")
+# source("../../R/plot_character_influence_timeline.R")
+# source("../../R/plot_annotated_match_timeline.R")
+# source("../../R/plot_emotional_arc.R")
+# source("../../R/generate_gallery.R")
 
 test_that("generate_gallery creates directory and generates files", {
   # Setup minimal analysis object

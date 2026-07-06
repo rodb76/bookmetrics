@@ -23,17 +23,21 @@
 #'   compute_sentiment_by_chapter compute_match_metrics identify_key_events
 #'   extract_character_mentions compute_character_possession create_book_analysis
 analyse_book <- function(book, character_names, chapters = NULL) {
-  # Check if 'book' is a registered identifier
   url <- get_book_url(book)
+  meta <- get_book_metadata(book)  # NULL if `book` was a raw URL, not a registry key
 
   if (is.null(url)) {
-    # If not in registry, assume it's a direct URL
     url <- book
   }
 
   # 1. Load and split the book if chapters are not provided
+  book_title <- NA_character_
+  book_author <- NA_character_
+
   if (is.null(chapters)) {
     book_text <- load_gutenberg_book(url)
+    book_title <- book_text$title[1]
+    book_author <- book_text$author[1]
     chapters <- split_into_chapters(book_text)
   }
 
@@ -54,7 +58,12 @@ analyse_book <- function(book, character_names, chapters = NULL) {
 
   # 7. Assemble and return the book_analysis object
   create_book_analysis(
-    metadata = list(url = url),
+    #metadata = list(title = book_title, author = book_author, url = url),
+    metadata = list(
+      title = if (!is.null(meta)) meta$title else NA_character_,
+      author = if (!is.null(meta)) meta$author else NA_character_,
+      url = url
+    ),
     chapters = chapters,
     sentiment = sentiment,
     match_metrics = match_metrics,
