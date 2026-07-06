@@ -21,4 +21,13 @@ jobs:
 
       - name: Check for outdated packages
         run: |
-          Rscript -e 'remotes::update_packages("remotes"); old_pkgs <- remotes::outdated(); if (length(old_pkgs) > 0) { cat("Outdated packages found:\n"); print(old_pkgs); quit(status=1) } else { cat("All packages up to date!\n") }'
+          Rscript -e '
+            old_pkgs <- old.packages()
+            if (!is.null(old_pkgs)) {
+              cat("Outdated packages found:\n")
+              print(old_pkgs)
+              quit(status=1)
+            } else {
+              cat("All packages are up to date\n")
+            }
+          '
