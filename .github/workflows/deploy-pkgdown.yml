@@ -38,7 +38,9 @@ jobs:
             libfontconfig1-dev \
             libfreetype6-dev \
             libpng-dev \
-            libjpeg-dev
+            libjpeg-dev \
+            libharfbuzz-dev \
+            libfribidi-dev
 
 
       - name: Install Dependencies

@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/setup-r@v2
-
       - name: Setup R
         uses: r-lib/actions/setup-r@v2 # wait, is this right? r-lib/actions/setup-r@v2 is the official one.
         with:
