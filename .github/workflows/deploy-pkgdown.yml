@@ -25,6 +25,20 @@ jobs:
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
+      - name: Install system libraries required for building R packages 
+        run: | 
+          sudo apt-get update sudo apt-get install -y --no-install-recommends
+          build-essential
+          pkg-config
+          libcurl4-openssl-dev
+          libssl-dev
+          libxml2-dev
+          libuv1-dev
+          libfontconfig1-dev
+          libfreetype6-dev
+          libpng-dev
+          libjpeg-dev
+
       - name: Install Dependencies
         run: |
           Rscript -e 'install.packages(c("remotes", "pkgdown"), repos = "https://cloud.r-project.org")'
