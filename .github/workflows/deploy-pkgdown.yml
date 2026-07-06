@@ -40,7 +40,9 @@ jobs:
             libpng-dev \
             libjpeg-dev \
             libharfbuzz-dev \
-            libfribidi-dev
+            libfribidi-dev \
+            libtiff5-dev \
+            libwebp-dev
 
 
       - name: Install Dependencies

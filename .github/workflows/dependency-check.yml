@@ -17,9 +17,8 @@ jobs:
           r-version: 'release'
 
       - name: Install remotes
-        run: Rscript -e 'install.packages("remotes")'
+        run: Rscript -e "install.packages('remotes')"
 
       - name: Check for outdated packages
         run: |
-          pkgversion::pkg_install("remotes")
-          Rscript -e 'old_pkgs <- remotes::outdated(); if (length(old_pkgs) > 0) { cat("Outdated packages found:\n"); print(old_pkgs); quit(status=1) } else { cat("All packages up to date!\n") }'
+          Rscript -e 'remotes::install_packages("remotes"); old_pkgs <- remotes::outdated(); if (length(old_pkgs) > 0) { cat("Outdated packages found:\n"); print(old_pkgs); quit(status=1) } else { cat("All packages up to date!\n") }'
